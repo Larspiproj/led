@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>PWM Settings</h2>
+  <form action= "" method="post">
+    {{ form.hidden_tag() }}
+    <p>
+      {{ form.pin.label }}<br>
+      {{ form.pin(size=2) }}<br/>
+      {% for error in form.pin.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.dutycycle.label }}<br>
+      {{ form.dutycycle() }}
+      {% for error in form.dutycycle.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    <p>
+      {{ form.frequency.label }}<br>
+      {{ form.frequency() }}
+      {% for error in form.frequency.errors %}
+      <span style="color: red;">[{{ error }}]</span>
+      {% endfor %}
+    </p>
+    <p>
+      {{ form.submit() }}
+    </p>
+  </form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Welcome to GPIO Configuration using pigpio!</h2>
+<body>
+  <p>
+    <b>Please select configuration below:</b>
+  </p>
+  <div>
+    <a href="{{ url_for('inputs') }}">Output/Input</a><br>
+    <a href="{{ url_for('pwm') }}">pwm</a>
+  </div>
+</body>
+
+{% endblock %}
