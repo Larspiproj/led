@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h2>Output/Input Settings</h2>
+  <h2>PWM Settings</h2>
   <form action= "" method="post">
     {{ form.hidden_tag() }}
     <p>
@@ -12,23 +12,15 @@
       {% endfor %}
     </p>
     <p>
-      {{ form.mode.label }}<br>
-      {{ form.mode() }}
-      {% for error in form.mode.errors %}
+      {{ form.dutycycle.label }}<br>
+      {{ form.dutycycle() }}
+      {% for error in form.dutycycle.errors %}
       <span style="color: red;">[{{ error }}]</span>
       {% endfor %}
-    </p>
     <p>
-      {{ form.pud.label }}<br>
-      {{ form.pud() }}
-      {% for error in form.pud.errors %}
-      <span style="color: red;">[{{ error }}]</span>
-      {% endfor %}
-    </p>
-    <p>
-      {{ form.state.label }}<br>
-      {{ form.state() }}
-      {% for error in form.state.errors %}
+      {{ form.frequency.label }}<br>
+      {{ form.frequency() }}
+      {% for error in form.frequency.errors %}
       <span style="color: red;">[{{ error }}]</span>
       {% endfor %}
     </p>

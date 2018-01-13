@@ -11,8 +11,10 @@
 <body>
   <div>
     <a href="{{ url_for('index') }}">Home</a>
-    <a href="{{ url_for('inputs') }}">Output/Input</a>
+    <a href="{{ url_for('input') }}">Input</a>
+    <a href="{{ url_for('output') }}">Output</a>
     <a href="{{ url_for('pwm') }}">pwm</a>
+    <a href="{{ url_for('read') }}">read</a>
   </div>
   <hr>
   {% with messages = get_flashed_messages() %}
