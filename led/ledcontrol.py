@@ -4,6 +4,7 @@ from flask import Flask, render_template, flash, redirect, url_for, request
 from forms import InputForm, OutputForm, GpioForm, PwmForm, ReadForm
 #from pwmforms import PwmForm
 import functions
+#from collections import OrderedDict
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'development key'
@@ -74,16 +75,74 @@ def read():
     if request.method == 'POST' and form.validate_on_submit():
         pinstr = request.form['pin']
         pinsplit = pinstr.split(',')
+        # Convert pins to integers using list comprehensions
+        pinsplit = [int(x) for x in pinsplit]
+        statelist = []
+        modelist =[]
+        #statedict = {}
+        #modedict = {}
+        # Read pins and store state and mode in lists
         for pin in pinsplit:
             state = pi.read(int(pin))
             mode = pi.get_mode(int(pin))
+            statelist.append(int(state))
+            modelist.append(int(mode))
+        # Make dictionaries with pins as keys and state/mode as values.
+        #statedict = dict(zip(pinsplit, statelist))
+        statedictunsort = dict(zip(pinsplit, statelist))
+        modedictunsort = dict(zip(pinsplit, modelist))
+        # Code for converting pins to integer not needed(se above).
+        #int_statedictunsort = {int(pinsplit) : statelist for pinsplit,
+        #        statelist in statedictunsort.items()}
+        #int_modedictunsort = {int(pinsplit) : modelist for pinsplit,
+        #        modelist in modedictunsort.items()}
+        # Sort dictionaries by keys. Result returned as lists with
+        # tuples like (4, 0).
+        statedict = sorted(statedictunsort.items())
+        modedict = sorted(modedictunsort.items())
+        #for i in range(len(pinsplit)):
+        #    statedict.update({pinsplit[i]: statelist[i]})
+        #    modedict.update({pinsplit[i]: modelist[i]})
             #real_frequency = pi.get_PWM_frequency(int(pin))
             #dutycycle = pi.get_PWM_dutycycle(int(pin))
         flash("State for Pin")
-        return render_template('settings.html', title='settings',
-             pin=pinstr, mode=mode, pud="n/a", state=state, dutycycle="dutycycle",
-             pwm_on_percent="n/a", frequency="n/a", real_frequency="real_frequency")
+        return render_template('configurations.html', title='configurations',
+                                      statedict=statedict, modedict=modedict)
+
     return render_template('read.html', title='read', form=form)
+
+######################### not used ###########################
+
+@app.route('/read/configuration', methods=['GET', 'POST'])
+def configuration():
+    form = ReadForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        pinstr = request.form['pin']
+        pinsplit = pinstr.split(',')
+        statelist = []
+        modelist =[]
+        for pin in pinsplit:
+            state = pi.read(int(pin))
+            mode = pi.get_mode(int(pin))
+            statelist.append(state)
+            modelist.append(mode)
+        statedict = dict(zip(pinsplit, statelist))
+        modedict = dict(zip(pinsplit, modelist))
+        flash("State for Pin")
+        return render_template('configurations.html', title='configurations',
+                                      statedict=statedict, modedict=modedict)
+    return render_template('read.html', title='read', form=form)
+
+
+@app.route('/readtest', methods=['GET','POST'])
+def readtest():
+    form = ReadForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        pinstr = request.form['pin']
+        pinsplit = pinstr.split(',')
+        return render_template('readtest.html', title='readtest', pinstr=pinstr, pinsplit=pinsplit)
+    return render_template('read.html', title='read', form=form)
+
 ######################### not used ###########################
 
 @app.route('/inputs', methods=['GET', 'POST'])

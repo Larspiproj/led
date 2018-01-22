@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>State</h1>
+<body>
+  <table>
+  {% for key in statedict %}
+  <tr>
+    <th> {{ key }} </th>
+    <td> {{ value }} </td>
+  </tr>
+  {% endfor %}
+  </table>
+  <h1>Mode</h1>
+  <table>
+  {% for key in modedict %}
+  <tr>
+    <th> {{ key }} </th>
+    <td> {{ value }} </td>
+  </tr>
+  {% endfor %}
+  </table>
+</body>
+{% endblock %}
